@@ -11,7 +11,7 @@ tags:
   - name: VehiclesCollectionExtraOperations
     description: особые операция для работы с коллекцией
 paths:
-  /vehicle:
+  /vehicles:
     post:
       tags:
         - VehiclesCollectionCrudOperations
@@ -58,7 +58,7 @@ paths:
         '400':
           description: Неверный запрос
 
-  /vehicle/{id}:
+  /vehicles/{id}:
     get:
       tags:
         - VehiclesCollectionCrudOperations
@@ -107,60 +107,7 @@ paths:
                 $ref: '#/components/schemas/Vehicle'
         '404':
           description: Объект Vehicle не был найден по данному id
-
-  /vehicles:
-    get:
-      tags:
-        - VehiclesCollectionCrudOperations
-      summary: Получение всех объектов Vehicle
-      description: Получить все объекты Vehicle
-      operationId: getAllVehicle
-      parameters:
-        - name: size
-          in: query
-          description: количество на странице оъектов Vehicle
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: page
-          in: query
-          description: номер страницы выводимых объектов Vehicle
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: fields
-          in: query
-          content:
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Vehicle"
-        - name: sort
-          in: query
-          schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - id
-                - name
-                - coordinates
-                - enginePower
-                - numberOfWheels
-                - distanceTravelled
-                - type
-      responses:
-        '200':
-          description: Операция завершилась успешно
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Vehicles'
-        '404':
-          description: Объекты Vehicle не были найдены
-
-  /getVehicles/count/type:
+  /vehicles/count/type:
     get:
       tags:
         - VehiclesCollectionExtraOperations
@@ -188,7 +135,7 @@ paths:
         '404':
           description: Объекты Vehicle не были найдены
 
-  /getVehicles/name/like:
+  /vehicles/name/like:
     get:
       tags:
         - VehiclesCollectionExtraOperations
@@ -215,7 +162,7 @@ paths:
                   name: 'Count'
         '404':
           description: Объекты Vehicle не были найдены
-  /getVehicles/enginePowere/less:
+  /vehicles/enginePowere/less:
     get:
       tags:
         - VehiclesCollectionExtraOperations
