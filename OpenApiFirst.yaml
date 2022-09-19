@@ -108,7 +108,7 @@ paths:
         '404':
           description: Объект Vehicle не был найден по данному id
 
-  /getAllVehicles:
+  /vehicles:
     get:
       tags:
         - VehiclesCollectionCrudOperations
