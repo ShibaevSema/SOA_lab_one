@@ -154,14 +154,10 @@ paths:
           content:
             application/xml:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                xml:
-                  name: 'Count'
+                $ref: '#/components/schemas/Vehicles'
         '404':
           description: Объекты Vehicle не были найдены
+
   /vehicles/enginePowere/less:
     get:
       tags:
@@ -181,12 +177,7 @@ paths:
           content:
             application/xml:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                xml:
-                  name: 'Count'
+                $ref: '#/components/schemas/Vehicles'
         '404':
           description: Vehicle's not found
 
