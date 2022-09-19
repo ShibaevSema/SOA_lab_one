@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+  title: Vehicle's shop
+  description: OpenAPI-спецификация дополнительного веб-сервиса, работающего с коллекцией Vehicles
+  version: 1.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/ShibaevSema/VehiclesShop/1.0.0
+  - url: http://vehicle.swagger.io/shop
+tags:
+  - name: DefaultVehiclesOperations
+    description: стандартные операция с объектами коллекции Vehicles в веб-сервисе SHOP
+paths:
+  /search/bytype/{type}:
+    get:
+      tags:
+        - DefaultVehiclesOperations
+      summary: Найти все транспортные средства заданного типа
+      description: Найти все транспортные средства заданного типа
+      operationId: searchVehiclesByType
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Операция завершилась успешно
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vehicles'
+        '404':
+          description: Данные объекты Vehicle не были найдены
+
+  /search/by-engine-power/{from}/{to}:
+    get:
+      tags:
+        - DefaultVehiclesOperations
+      summary: Найти все транспортные средства с мощностью двигателя в заданном диапазоне
+      description: найти все транспортные средства с мощностью двигателя в заданном диапазоне
+      operationId: searchVehiclesByEnginePower
+      parameters:
+        - name: from
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: to
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Операция завершилась успешно
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vehicles'
+        '404':
+          description: Данные объекты Vehicle не были найдены
+
+components:
+  schemas:
+    Vehicles:
+      type: array
+      items:
+        $ref: '#/components/schemas/Vehicle'
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1234567
+          minimum: 1
+          nullable: false
+        name:
+          type: string
+          example: 'Name'
+          minLength: 1
+          nullable: false
+        cooridinates:
+          $ref: '#/components/schemas/Coordinates'
+        creationDate:
+          type: string
+          example: '2007-12-03T10:15:30'
+          format: date-time
+          nullable: false
+        enginePower:
+          type: integer
+          format: int32
+          example: 200
+          minimum: 1
+        numberOfWheels:
+          type: integer
+          format: int64
+          example: 4
+          minimum: 1
+          nullable: false
+        distanceTravelled:
+          type: number
+          example: 4444.1
+          minimum: 1
+          nullable: true
+        type:
+          $ref: '#/components/schemas/VehicleType'
+    Coordinates:
+      type: object
+      properties:
+        x:
+          type: number
+          example: 1.1
+        y:
+          type: integer
+          format: int64
+          example: 4
+    VehicleType:
+      type: string
+      enum:
+        - CAR
+        - PLANE
+        - HOVERBOARD

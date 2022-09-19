@@ -1,0 +1,306 @@
+openapi: 3.0.3
+info:
+  title: VehiclesCollection
+  description: OpenAPI-спецификация управления коллекцией объектов Vehicle
+  version: 1.0.0
+servers:
+  - url: http://vehicle.swagger.io
+tags:
+  - name: VehiclesCollectionCrudOperations
+    description: базовые операции для работы с объектами коллекции
+  - name: VehiclesCollectionExtraOperations
+    description: особые операция для работы с коллекцией
+paths:
+  /vehicle:
+    post:
+      tags:
+        - VehiclesCollectionCrudOperations
+      summary: добавление нового объекта Vehicle
+      description: добавление нового объекта Vehicle
+      operationId: addVehicle
+      requestBody:
+        description: создание нового объекта Vehicle и добавление его в коллекцию
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+        required: true
+      responses:
+        '200':
+          description: Операция завершилась успешно
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        '400':
+          description: Неверный запрос
+
+    put:
+      tags:
+        - VehiclesCollectionCrudOperations
+      summary: обновление объекта Vehicle по id
+      description: обновление объекта Vehicle по id
+      operationId: updateVehicle
+      requestBody:
+        description: обновление существующего объекта Vehicle в коллекции
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+        required: true
+      responses:
+        '200':
+          description: Операция завершилась успешно
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        '400':
+          description: Неверный запрос
+
+  /vehicle/{id}:
+    get:
+      tags:
+        - VehiclesCollectionCrudOperations
+      summary: получить объект Vehicle по id
+      description: получить объект Vehicle по id
+      operationId: getVehicleById
+      parameters:
+        - name: id
+          in: path
+          description: Vehicle ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Операция завершилась успешно
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        '404':
+          description: Объект Vehicle не был найден по данному id
+
+
+    delete:
+      tags:
+        - VehiclesCollectionCrudOperations
+      summary: удаление объекта Vehicle по id
+      description: удалить объект Vehicle по id
+      operationId: deleteVehicleById
+      parameters:
+        - name: id
+          in: path
+          description: Vehicle ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Операция завершилась успешно
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        '404':
+          description: Объект Vehicle не был найден по данному id
+
+  /getAllVehicles:
+    get:
+      tags:
+        - VehiclesCollectionCrudOperations
+      summary: Получение всех объектов Vehicle
+      description: Получить все объекты Vehicle
+      operationId: getAllVehicle
+      parameters:
+        - name: size
+          in: query
+          description: количество на странице оъектов Vehicle
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          description: номер страницы выводимых объектов Vehicle
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: fields
+          in: query
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Vehicle"
+        - name: sort
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - id
+                - name
+                - coordinates
+                - enginePower
+                - numberOfWheels
+                - distanceTravelled
+                - type
+      responses:
+        '200':
+          description: Операция завершилась успешно
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vehicles'
+        '404':
+          description: Объекты Vehicle не были найдены
+
+  /getVehicles/count/type:
+    get:
+      tags:
+        - VehiclesCollectionExtraOperations
+      summary: Вернуть количество объектов, значение поля type которых равно заданному
+      description: Вернуть количество объектов, значение поля type которых равно заданному
+      operationId: countVehiclesWhereTypeIs
+      parameters:
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Операция завершилась успешно
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                xml:
+                  name: 'Count'
+        '404':
+          description: Объекты Vehicle не были найдены
+
+  /getVehicles/name/like:
+    get:
+      tags:
+        - VehiclesCollectionExtraOperations
+      summary: Вернуть массив объектов, значение поля name которых содержит заданную подстроку
+      description: Вернуть массив объектов, значение поля name которых содержит заданную подстроку
+      operationId: getVehiclesWhereNameLike
+      parameters:
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Операция завершилась успешно
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                xml:
+                  name: 'Count'
+        '404':
+          description: Объекты Vehicle не были найдены
+  /getVehicles/enginePowere/less:
+    get:
+      tags:
+        - VehiclesCollectionExtraOperations
+      summary: Вернуть массив объектов, значение поля enginePower которых меньше заданного
+      description: Вернуть массив объектов, значение поля enginePower которых меньше заданного
+      operationId: getVehiclesWhereEnginePowerIsLessThan
+      parameters:
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Операция завершилась успешно
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                xml:
+                  name: 'Count'
+        '404':
+          description: Vehicle's not found
+
+components:
+  schemas:
+    Vehicles:
+      type: array
+      items:
+        $ref: '#/components/schemas/Vehicle'
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1234567
+          minimum: 1
+          nullable: false
+        name:
+          type: string
+          example: 'Name'
+          minLength: 1
+          nullable: false
+        cooridinates:
+          $ref: '#/components/schemas/Coordinates'
+        creationDate:
+          type: string
+          example: '2007-12-03T10:15:30'
+          format: date-time
+          nullable: false
+        enginePower:
+          type: integer
+          format: int32
+          example: 200
+          minimum: 1
+        numberOfWheels:
+          type: integer
+          format: int64
+          example: 4
+          minimum: 1
+          nullable: false
+        distanceTravelled:
+          type: number
+          example: 4444.1
+          minimum: 1
+          nullable: true
+        type:
+          $ref: '#/components/schemas/VehicleType'
+    Coordinates:
+      type: object
+      properties:
+        x:
+          type: number
+          example: 1.1
+        y:
+          type: integer
+          format: int64
+          example: 4
+    VehicleType:
+      type: string
+      enum:
+        - CAR
+        - PLANE
+        - HOVERBOARD
