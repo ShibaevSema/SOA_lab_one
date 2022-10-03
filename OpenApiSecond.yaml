@@ -12,7 +12,7 @@ tags:
   - name: DefaultVehiclesOperations
     description: стандартные операция с объектами коллекции Vehicles в веб-сервисе SHOP
 paths:
-  /search/bytype/{type}:
+  /search/by-type/{type}:
     get:
       tags:
         - DefaultVehiclesOperations
@@ -32,8 +32,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Vehicles'
+        '400':
+          description: Неверный запрос
         '404':
           description: Данные объекты Vehicle не были найдены
+        '500':
+          description: Внутренняя ошибка сервера
+        '503':
+          description: Сервер недоступен
 
   /search/by-engine-power/{from}/{to}:
     get:
@@ -62,8 +68,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Vehicles'
+        '400':
+          description: Неверный запрос
         '404':
           description: Данные объекты Vehicle не были найдены
+        '500':
+          description: Внутренняя ошибка сервера
+        '503':
+          description: Сервер недоступен
 
 components:
   schemas:

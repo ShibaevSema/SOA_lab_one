@@ -34,6 +34,10 @@ paths:
                 $ref: '#/components/schemas/Vehicle'
         '400':
           description: Неверный запрос
+        '500':
+          description: Внутренняя ошибка сервера
+        '503':
+          description: Сервер недоступен
 
     put:
       tags:
@@ -57,6 +61,69 @@ paths:
                 $ref: '#/components/schemas/Vehicle'
         '400':
           description: Неверный запрос
+        '500':
+          description: Внутренняя ошибка сервера
+        '503':
+          description: Сервер недоступен
+
+    get:
+      tags:
+        - VehiclesCollectionCrudOperations
+      summary: Получение всех объектов Vehicle
+      description: Получить все объекты Vehicle
+      operationId: getAllVehicle
+      parameters:
+        - name: size
+          in: query
+          description: количество на странице оъектов Vehicle
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          description: номер страницы выводимых объектов Vehicle
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: fields
+          in: query
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Vehicle"
+        - name: sort
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - id
+                - name
+                - coordinates
+                - enginePower
+                - numberOfWheels
+                - distanceTravelled
+                - type
+      responses:
+        '200':
+          description: Операция завершилась успешно
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vehicles'
+        '204':
+          description: Пустое содержимое
+        '400':
+          description: Неверный запрос
+        '404':
+          description: Объекты Vehicle не были найдены
+        '500':
+          description: Внутренняя ошибка сервера
+        '503':
+          description: Сервер недоступен
 
   /vehicles/{id}:
     get:
@@ -80,8 +147,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Vehicle'
+        '400':
+          description: Неверный запрос
         '404':
           description: Объект Vehicle не был найден по данному id
+        '500':
+          description: Внутренняя ошибка сервера
+        '503':
+          description: Сервер недоступен
 
 
     delete:
@@ -105,8 +178,17 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Vehicle'
+        '202':
+          description: Удаление будет успешным, но еще не выполнено
+        '400':
+          description: Неверный запрос
         '404':
           description: Объект Vehicle не был найден по данному id
+        '500':
+          description: Внутренняя ошибка сервера
+        '503':
+          description: Сервер недоступен
+
   /vehicles/count/type:
     get:
       tags:
@@ -132,8 +214,12 @@ paths:
                     type: integer
                 xml:
                   name: 'Count'
-        '404':
-          description: Объекты Vehicle не были найдены
+        '400':
+          description: Неверный запрос
+        '500':
+          description: Внутренняя ошибка сервера
+        '503':
+          description: Сервер недоступен
 
   /vehicles/name/like:
     get:
@@ -155,8 +241,15 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Vehicles'
+        '400':
+          description: Неверный запрос
         '404':
           description: Объекты Vehicle не были найдены
+        '500':
+          description: Внутренняя ошибка сервера
+        '503':
+          description: Сервер недоступен
+
 
   /vehicles/enginePowere/less:
     get:
@@ -178,8 +271,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Vehicles'
+        '400':
+          description: Неверный запрос
         '404':
-          description: Vehicle's not found
+          description: Объекты Vehicle не были найдены
+        '500':
+          description: Внутренняя ошибка сервера
+        '503':
+          description: Сервер недоступен
 
 components:
   schemas:
